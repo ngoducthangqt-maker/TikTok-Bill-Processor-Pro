@@ -1,0 +1,5 @@
+{
+  "name": "TikTok Bill Processor Pro",
+  "description": "A professional tool to sort, group, and number TikTok PDF bills by SKU automatically. Built with pure client-side PDF processing for speed and privacy.",
+  "requestFramePermissions": []
+}

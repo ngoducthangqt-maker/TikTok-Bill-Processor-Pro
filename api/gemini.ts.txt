@@ -1,0 +1,23 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { GoogleGenAI } from "@google/genai";
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  try {
+    const { prompt, context } = req.body;
+
+    if (!process.env.API_KEY) {
+      return res.status(500).json({ error: "Thiếu API_KEY trong Vercel" });
+    }
+
+    const genAI = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+    const response = await genAI.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `Dữ liệu đơn hàng:\n${context}\n\nCâu hỏi: ${prompt}\nTrả lời ngắn gọn bằng tiếng Việt.`,
+    });
+
+    res.status(200).json({ text: response.text });
+  } catch (error) {
+    res.status(500).json({ error: String(error) });
+  }
+}
